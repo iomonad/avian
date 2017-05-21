@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/iomonad/avian/master/project/artworks/banner.jpg"/>
-  <b>avian</b><br>   
+  <img src="https://raw.githubusercontent.com/iomonad/avian/master/project/artworks/banner.jpg"/><br>
+  <b>avian</b><br>
   <a href='https://travis-ci.org/iomonad/avian'>
     <img src='https://travis-ci.org/iomonad/avian.svg?branch=master' alt='Build status'/>
   </a>

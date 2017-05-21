@@ -1,9 +1,5 @@
-package avian
+package com.avian
 
-object Hello extends Greeting with App {
-  println(greeting)
-}
-
-trait Greeting {
-  lazy val greeting: String = "hello"
+package object Main extends App {
+    println("foo")
 }
