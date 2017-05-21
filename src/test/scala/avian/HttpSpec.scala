@@ -14,6 +14,8 @@ class HttpTest extends FlatSpec with Matchers {
     }
     "The Server value in the header" should "be parsed retrived" in {
         val a = new Client("http://ifconfig.io/")
-        a.header.getServer should be ("cloudflare-nginx")
+        a.header.getIn("Server") should be ("cloudflare-nginx")
+        a.header.getIn("Content-Type") should be ("text/html; charset=utf-8")
+        a.header.getIn("Content-Length") should be ("undefined") // Test default values.
     }
 }

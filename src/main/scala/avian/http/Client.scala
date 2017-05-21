@@ -31,16 +31,22 @@ trait ClientActions {
      */
     val request: HttpResponse[String]
 
+    /* @Desc: Extract values from headers.
+     */
     object header {
+        val a = getHeaders
+        def getIn(key: String): String = {
+            getHeaders.get(key) match {
+                case Some(e) => e.mkString
+                case _ => "undefined"
+            }
+        }
+    }
 
-        def getHeaders(): Map[String, IndexedSeq[String]] = {
-            request.headers
-        }
-        
-        def getServer: String = {
-            val a = getHeaders
-            a("Server").mkString 
-        }
+    /* @Desc: get a kv Map of headers values
+     */
+    def getHeaders(): Map[String, IndexedSeq[String]] = {
+        request.headers
     }
 
     def getStatus(): Int = {
@@ -52,12 +58,6 @@ trait ClientActions {
     def getBody(): String = {
         request.body match {
             case e => e.mkString
-        }
-    }
-
-    def getCookies(): String = {
-        request.body match {
-            case e => e.toString
         }
     }
 }
