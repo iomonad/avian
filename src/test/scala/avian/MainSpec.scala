@@ -1,3 +1,3 @@
-package com.avian
+package com.avian.test.main
 
 import org.scalatest._
