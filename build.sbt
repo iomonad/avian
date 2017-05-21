@@ -17,7 +17,8 @@ lazy val root = (project in file(".")).
             akkaTest,
             mongoDb,
             sl4j,            
-            scalajHttp
+            scalajHttp,
+            jsoup
         )
     )
 
@@ -29,4 +30,4 @@ coverageEnabled := true
 coverageMinimum := 70
 coverageFailOnMinimum := false
 coverageHighlighting := true
-coverageExcludedPackages := "<empty>;com.avian.Entry"
+coverageExcludedPackages := "<empty>;com.avian.Main"
