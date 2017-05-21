@@ -11,8 +11,8 @@ class HttpTest extends FlatSpec with Matchers {
         b.getStatus should be (301) // Google blocks some crawlers.
     }
     "The http user-agent" should "be set correctly" in {
-        val a = new Client("http://ifconfig.co").getStatus
-        val b = new Client("http://ifconfig.io").getStatus
+        val a = new Client("http://ifconfig.co/ip").getBody
+        val b = new Client("http://ifconfig.io/ip").getBody
         assert(a == b)
     }
     "The Server value in the header" should "be parsed retrived" in {
