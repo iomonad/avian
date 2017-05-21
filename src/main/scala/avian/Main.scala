@@ -1,5 +1,6 @@
 package com.avian
 
-package object Main extends App {
+import com.avian.http.client._
 
+package object Main extends App {    
 }
