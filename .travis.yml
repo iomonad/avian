@@ -1,6 +1,8 @@
 language: scala
 services:
-  - mongodb
+  - elasticsearch
+before_script:
+  - sleep 10
 scala:
   - 2.11.1
   - 2.10.4
