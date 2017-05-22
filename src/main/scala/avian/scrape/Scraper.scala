@@ -4,6 +4,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
 import org.jsoup.select.{Elements}
 import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /* @Desc: Scraping utils object
  * @Author: iomonad <iomonad@riseup.net>
@@ -40,6 +41,12 @@ trait ScrapeActions {
      */
     type JDoc = org.jsoup.nodes.Document
 
+    /* @Desc: The Node is simply a list of string
+     * that represent a crawl endpoint for the bot.
+     */
+    type Nodes = List[String]
+    type Node = String
+
     /* @Desc: Some query helpers to grep values in body pages.
      */
     object get {
@@ -70,9 +77,17 @@ trait ScrapeActions {
     /* @Desc: Get all urls in the body and wrap result
      *  in a Link sequence `(title + href)`.
      */
-    def findUrl(doc: JDoc): Seq[Link] = {
+    def findLink(doc: JDoc): Seq[Link] = {
         doc.select("a[href]").iterator.toList.map {
             l => Link(l.attr("title"), l.attr("href"))
+        }
+    }
+
+    /* @Desc: Return Nodes on the pages.
+     */
+    def getNodes(doc: JDoc): Nodes = {
+        doc.select("a[href]").iterator.toList.map {
+            l => l.attr("href").toString
         }
     }
 }

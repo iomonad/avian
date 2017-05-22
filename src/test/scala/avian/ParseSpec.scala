@@ -18,6 +18,11 @@ class ParsingTest extends FlatSpec with Matchers {
     "The url finder functions" should "scrape and return link in sequence correctly" in {
         val a = Source.fromURL(getClass.getResource("/trivial.html")).mkString
         val parsed = Scraper.parse(a)
-        Scraper.findUrl(parsed) shouldEqual List(Link("Main Gentoo website","https://www.gentoo.org/"),Link("Contribute","https://wiki.gentoo.org/"))
+        Scraper.findLink(parsed) shouldEqual List(Link("Main Gentoo website","https://www.gentoo.org/"),Link("Contribute","https://wiki.gentoo.org/"))
+    }
+    "Nodes" should "correctly discovered" in {
+        val a = Source.fromURL(getClass.getResource("/trivial.html")).mkString
+        val parsed = Scraper.parse(a)
+        assert(Scraper.getNodes(parsed) == (List("https://www.gentoo.org/","https://wiki.gentoo.org/")))
     }
 }
