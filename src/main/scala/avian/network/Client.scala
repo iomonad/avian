@@ -19,17 +19,33 @@ override object Http extends BaseHttp (
 )
 
 class Client(url: String) extends ClientActions {
-    /* @Desc: Set immutable request in class instance.
+    /* @Desc: Set mutable request in class instance for connection reuse.
      */
-    val request: HttpResponse[String] = Http(url).asString
+    var request: HttpResponse[String] = Http(url).asString
+
+    /* @Desc: To avoid multiples instances, connections can be reused
+     */
+    def reuse(url: String): Unit = {
+        request = Http(url).asString /* Override object instance `request` */
+    }
+}
+
+class OnionClient(url: String) extends ClientActions {
+    /* @Desc: Set tor proxy @127.0.0.1:9050 as SOCKS5 type.
+     */
+    var request: HttpResponse[String] = Http(url).proxy("127.0.0.1",9050).asString
+
+    def reuse(url: String): Unit = {
+        Http(url).proxy("127.0.0.1",9050).asString /* Override object instance `request` */
+    }
 }
 
 /* @Desc: Trait to extend for others methods, GET, POST ...
  */
 trait ClientActions {
-    /* @Desc: Non concrete type to overrid on class instance
+    /* @Desc: Non concrete type to override on class instance
      */
-    val request: HttpResponse[String]
+    var request: HttpResponse[String]
 
     /* @Desc: Extract values from headers.
      */

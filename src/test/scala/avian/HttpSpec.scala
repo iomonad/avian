@@ -8,7 +8,13 @@ class NetworkTest extends FlatSpec with Matchers {
         val a = new Client("http://ifconfig.io/")
         val b = new Client("http://google.nl")
         a.getStatus should be (200)
-        b.getStatus should be (301) // Google blocks some crawlers.
+        b.getStatus should be (301) // Google bots.
+    }
+    "Client connection" should "be reused correctly" in {
+        val a = new Client("http://ifconfig.io/")
+        a.getStatus should be (200)
+        a.reuse("https://google.nl") // Reuse connection.
+        a.getStatus should be (301)
     }
     "The http user-agent" should "be set correctly" in {
         val a = new Client("http://ifconfig.co/ip").getBody
