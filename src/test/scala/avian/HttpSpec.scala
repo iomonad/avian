@@ -1,9 +1,9 @@
 package com.avian.test.http
 
 import org.scalatest._
-import com.avian.http.client.Client
+import com.avian.network.{Client}
 
-class HttpTest extends FlatSpec with Matchers {
+class NetworkTest extends FlatSpec with Matchers {
     "The http request" should "be correctly handled" in {
         val a = new Client("http://ifconfig.io/")
         val b = new Client("http://google.nl")

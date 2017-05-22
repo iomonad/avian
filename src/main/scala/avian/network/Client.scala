@@ -1,10 +1,10 @@
-package com.avian.http.client
+package com.avian.network
 
 import java.io._
 import scalaj.http.{HttpResponse, BaseHttp, HttpConstants}
 
 /* @Desc: Network request class
- * @Author: Clement Trösa
+ * @Author: iomonad <iomonad@riseup.net>
  */
 
 /* @Desc: Override default http client options.
@@ -14,7 +14,7 @@ override object Http extends BaseHttp (
     options = HttpConstants.defaultOptions,
     charset = HttpConstants.utf8,
     sendBufferSize = 4096,
-    userAgent = "avian/1.1",
+    userAgent = "Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0",
     compress = true
 )
 
