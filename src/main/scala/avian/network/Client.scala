@@ -2,7 +2,7 @@ package com.avian.network
 
 import java.io._
 import scalaj.http.{HttpResponse, BaseHttp, HttpConstants}
-
+import com.avian.utils.{Utils}
 /* @Desc: Network request class
  * @Author: iomonad <iomonad@riseup.net>
  */
@@ -19,6 +19,11 @@ override object Http extends BaseHttp (
 )
 
 class Client(url: String) extends ClientActions {
+
+    /* @Desc: We store current url to parse current node.
+     */
+    var localnode: String = url
+
     /* @Desc: Set mutable request in class instance for connection reuse.
      */
     var request: HttpResponse[String] = Http(url).asString
@@ -31,6 +36,11 @@ class Client(url: String) extends ClientActions {
 }
 
 class OnionClient(url: String) extends ClientActions {
+
+    /* @Desc: We store current url to parse current node.
+     */
+    var localnode: String = url  
+    
     /* @Desc: Set tor proxy @127.0.0.1:9050 as SOCKS5 type.
      */
     var request: HttpResponse[String] = Http(url).proxy("127.0.0.1",9050).asString
@@ -43,6 +53,11 @@ class OnionClient(url: String) extends ClientActions {
 /* @Desc: Trait to extend for others methods, GET, POST ...
  */
 trait ClientActions {
+
+    /* @Desc: We store current url to parse current node.
+     */
+    var localnode: String
+
     /* @Desc: Non concrete type to override on class instance
      */
     var request: HttpResponse[String]
@@ -75,5 +90,12 @@ trait ClientActions {
         request.body match {
             case e => e.mkString
         }
+    }
+
+    def getRobot(): String = {
+
+        /* @Desc: Get root domain to parse robots.
+         */
+        Utils.Url.getRoot(localnode)
     }
 }
