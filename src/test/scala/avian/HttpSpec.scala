@@ -2,19 +2,20 @@ package com.avian.test.http
 
 import org.scalatest._
 import com.avian.network.{Client}
+import com.avian.types._
 
 class NetworkTest extends FlatSpec with Matchers {
     "The http request" should "be correctly handled" in {
         val a = new Client("http://ifconfig.io/")
         val b = new Client("http://google.nl")
-        a.getStatus should be (200)
-        b.getStatus should be (301) // Google bots.
+        a.getStatus should be (Status("Status",200))
+        b.getStatus should be (Status("Status", 301)) // Google bots.
     }
     "Client connection" should "be reused correctly" in {
         val a = new Client("http://ifconfig.io/")
-        a.getStatus should be (200)
+        a.getStatus should be (Status("Status",200))
         a.reuse("https://google.nl") // Reuse connection.
-        a.getStatus should be (301)
+        a.getStatus should be (Status("Status",301))
     }
     "The http user-agent" should "be set correctly" in {
         val a = new Client("http://ifconfig.co/ip").getBody

@@ -23,7 +23,7 @@ object Database {
      */
     def indexToMongo(index: Index): MongoDBObject = {
         val builder = MongoDBObject.newBuilder
-        builder += "url" -> index.url
+        builder += "domain" -> index.url
         builder += "headers" -> index.request
         builder += "page" -> index.page
         builder += "localnode" -> index.localnode

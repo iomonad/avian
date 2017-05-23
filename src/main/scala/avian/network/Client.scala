@@ -38,6 +38,9 @@ class Client(url: String) extends ClientActions {
     }
 }
 
+/* @Desc: Same client but route request throught localhost:9050 proxy
+ *  to access onion hostnames.
+ */
 class OnionClient(url: String) extends ClientActions {
 
     /* @Desc: We store current url to parse current node.
@@ -93,11 +96,12 @@ trait ClientActions {
         request.headers
     }
 
-    def getStatus(): Int = {
+    def getStatus(): Status = {
         request.code match {
-            case e => e.toInt
+            case e => Status("Status", e.toInt)
         }
     }
+
 
     def getBody(): String = {
         request.body match {
@@ -109,8 +113,8 @@ trait ClientActions {
      */
     def makeRequest(): Request = {
         Request(
-            request.code.toInt,
-            header.commonToSeq
+            getStatus, /* Use Status type to store code*/
+            header.commonToSeq /* Use headers seq */
         )
     }
 

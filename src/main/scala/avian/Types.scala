@@ -1,5 +1,6 @@
 package com.avian.types
 
+import com.avian.utils.{Utils}
 /* @Desc: Projects types for database use
  * @Author: iomonad <iomonad@riseup.net>
  */
@@ -29,21 +30,26 @@ sealed case class Index(
 /* @Desc: The request type modelize responses
  *  Headers
  */
-sealed case class Hraw(k: String, v: String)
+sealed case class Status(s: String, code: Int)
 sealed case class Request(
-    status: Int,
+    status: Status,
     headers: Seq[Hraw]
 )
+
+/* @Desc: Simple Header class to store headers values
+ *  using keys values.
+ */
+sealed case class Hraw(k: String, v: String)
 
 object Types {
     /* @Desc: Create storable index object.
      */
     def makeIndex(url: String, request: Request, page: Page, localnode: String): Index = {
         Index(
-            url,
-            request,
-            page,
-            localnode
+            Utils.Url.getRoot(url), /* Domain */
+            request, /* Headers Seq */
+            page, /* Parsed body */
+            localnode /* Current node (url) */
         )
     }
 }
