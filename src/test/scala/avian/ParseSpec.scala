@@ -37,4 +37,9 @@ class ParsingTest extends FlatSpec with Matchers {
                     Link("Contribute","https://wiki.gentoo.org/")),
                 List("gentoo","is","indexed","by","google"))))
     }
+    "False keywords" should "be handled simply" in {
+        val a = Source.fromURL(getClass.getResource("/fail.html")).mkString
+        val parse = Scraper.parse(a)
+        assert(Scraper.get.keywords(parse) == (List("")))
+    }
 }
