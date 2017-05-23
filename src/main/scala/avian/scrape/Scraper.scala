@@ -15,10 +15,9 @@ import scala.collection.JavaConverters._
 sealed case class Link(title: String, href: String)
 sealed case class Page(
     title: String,
-    body: String,
+    desc: String,
     links: Seq[Link],
-    origin: Link,
-    meta: Seq[String]
+    keywords: List[String]
 )
 
 /* @Desc: Scrape singleton for html utils.
@@ -71,7 +70,17 @@ trait ScrapeActions {
                 case Some(e) => e.attr("content")
                 case None  => ""
             }
-        }        
+        }
+
+        /* Get meta keywords from the documents,
+         *  and split each word in list.
+         */
+        def keywords(doc: JDoc): List[String] = {
+            Option(metan(doc,"keywords")) match {
+                case Some(e) => e.split(",").map(_.toLowerCase.trim).toList
+                case None => List("")
+            }
+        }
     }
 
     /* @Desc: Get all urls in the body and wrap result
@@ -89,5 +98,20 @@ trait ScrapeActions {
         doc.select("a[href]").iterator.toList.map {
             l => l.attr("href").toString
         }
+    }
+}
+
+/* @Desc: Get partialy a body and return a Page object for
+ *  the database actor.
+ */
+object Scrape extends ScrapeActions {
+    def apply(body: String): Page = {
+        val a = Scraper.parse(body)
+        Page(
+            Scraper.get.title(a),
+            Scraper.get.metan(a,"description"),
+            Scraper.findLink(a),
+            Scraper.get.keywords(a)
+        )
     }
 }

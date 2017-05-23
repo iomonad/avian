@@ -54,7 +54,7 @@ trait ClientActions {
         def getIn(key: String): String = {
             getHeaders.get(key) match {
                 case Some(e) => e.mkString
-                case _ => "undefined"
+                case None => "undefined"
             }
         }
     }
