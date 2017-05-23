@@ -17,9 +17,8 @@ object Utils {
          */
         def getRoot(localnode: String): String = {
             val url = new URL(localnode)
-            Option(url.getHost) match {
-                case Some(u) => s"https://$u/"
-                case None => ""
+            url.getHost match {
+                case u => s"https://$u/"
             }
         }
     }

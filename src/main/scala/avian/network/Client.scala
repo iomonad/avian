@@ -3,6 +3,8 @@ package com.avian.network
 import java.io._
 import scalaj.http.{HttpResponse, BaseHttp, HttpConstants}
 import com.avian.utils.{Utils}
+import com.avian.types._
+
 /* @Desc: Network request class
  * @Author: iomonad <iomonad@riseup.net>
  */
@@ -32,6 +34,7 @@ class Client(url: String) extends ClientActions {
      */
     def reuse(url: String): Unit = {
         request = Http(url).asString /* Override object instance `request` */
+        localnode = url
     }
 }
 
@@ -47,6 +50,7 @@ class OnionClient(url: String) extends ClientActions {
 
     def reuse(url: String): Unit = {
         Http(url).proxy("127.0.0.1",9050).asString /* Override object instance `request` */
+        localnode = url
     }
 }
 
@@ -72,6 +76,15 @@ trait ClientActions {
                 case None => "undefined"
             }
         }
+
+        /* @Desc: Return Headers values in sequences.
+         */
+        def commonToSeq(): Seq[Hraw] = {
+            List("Server","Content-length").toList.map((i: String)
+                => Hraw(i, getIn(i))
+            )
+        }
+
     }
 
     /* @Desc: get a kv Map of headers values
@@ -92,10 +105,20 @@ trait ClientActions {
         }
     }
 
-    def getRobot(): String = {
+    /* @Desc: Get Request types from headers responses.
+     */
+    def makeRequest(): Request = {
+        Request(
+            request.code.toInt,
+            header.commonToSeq
+        )
+    }
+
+    def getRobot(): Map[String, String] = {
 
         /* @Desc: Get root domain to parse robots.
          */
-        Utils.Url.getRoot(localnode)
+        val a: String = Utils.Url.getRoot(localnode) ++ "/robots.txt"
+        Http(a).asString.body.split("\n").map(_.split(":")).map(arr => arr(0) -> arr(1)).toMap
     }
 }

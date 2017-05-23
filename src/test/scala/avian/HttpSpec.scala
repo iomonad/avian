@@ -27,4 +27,8 @@ class NetworkTest extends FlatSpec with Matchers {
         a.header.getIn("Content-Type") should be ("text/html; charset=utf-8")
         a.header.getIn("Content-Length") should be ("undefined") // Test default values.
     }
+    // "The http robot.txt request" should "be correctly parsed" in {
+    //     val a = new Client("https://gentoo.org")
+    //     a.getRobot() should be ("")
+    // }
 }

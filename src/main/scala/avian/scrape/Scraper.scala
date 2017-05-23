@@ -5,20 +5,11 @@ import org.jsoup.nodes.{Document, Element}
 import org.jsoup.select.{Elements}
 import scala.collection.JavaConversions._
 import scala.collection.JavaConverters._
+import com.avian.types._
 
 /* @Desc: Scraping utils object
  * @Author: iomonad <iomonad@riseup.net>
  */
-
-/* @Desc: Modelized page type
- */
-sealed case class Link(title: String, href: String)
-sealed case class Page(
-    title: String,
-    desc: String,
-    links: Seq[Link],
-    keywords: List[String]
-)
 
 /* @Desc: Scrape singleton for html utils.
  */

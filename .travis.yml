@@ -1,15 +1,12 @@
 language: scala
 services:
-  - elasticsearch
-before_script:
-  - sleep 10
+  - mongodb
 scala:
   - 2.11.1
   - 2.10.4
   - 2.9.3
 jdk:
   - oraclejdk8
-
 script:
   - sbt clean coverage test coverageReport &&
     sbt coverageAggregate
