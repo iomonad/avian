@@ -7,5 +7,8 @@
   <a href='https://coveralls.io/github/iomonad/avian?branch=master'>
     <img src='https://coveralls.io/repos/github/iomonad/avian/badge.svg?branch=master' alt='Coverage Status' />
   </a><br>
-  <u>Web crawler for personal data mining project.</u>
+  <u>Web crawler for personal data mining project.</u><br>
+  <u> Please note that the crawler is currently purely experimental and
+      don't have concrete objectives.
+  </u>
 </p>
