@@ -24,7 +24,8 @@ package com.avian.utils
 import scala.util.{Try}
 import scala.util.control.{ControlThrowable, NonFatal}
 import scala.util.matching.{Regex}
-import java.net.{URL}
+import java.net.{ URL, MalformedURLException }
+import scala.util.control.Exception._
 
 object Utils {
     object Url {
@@ -35,6 +36,16 @@ object Utils {
             val url = new URL(localnode)
             url.getHost match {
                 case u => s"https://$u/"
+            }
+        }
+
+        /** @desc regularize url for safe and nonnull request
+          * @param url url to normalize
+          */
+        def regulize(url: String): Option[String] = {
+            catching(classOf[MalformedURLException]) opt new URL(url) match {
+                case Some(v) => Some(v.toString)
+                case None => None
             }
         }
     }

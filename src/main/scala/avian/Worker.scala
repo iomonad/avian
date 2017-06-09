@@ -24,6 +24,7 @@ package com.avian.worker
 import com.avian.network._
 import com.avian.scrape._
 import com.avian.types._
+import com.avian.utils.Utils
 import com.avian.database._
 import akka.actor._
 import akka.event.Logging
@@ -45,7 +46,10 @@ class MainWorker extends Actor {
             val nd = Scraper.findLink(Scraper.parse(a.getBody))
             for(n <- nd) {
                 n match {
-                    case Link(desc, node) => balancer ! Node(node)
+                    case Link(desc, node) => Utils.Url.regulize(node) match {
+                        case Some(node) => balancer ! Node(node)
+                        case None => /* Avoid malformed urls */
+                    }
                     case _ => log.error("Error while parsing node.")
                 }
             }
