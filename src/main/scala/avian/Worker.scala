@@ -31,6 +31,7 @@ import akka.event.Logging
 class MainWorker extends Actor {
 
     val log = Logging(context.system, this)
+    val balancer = context.actorOf(Props[BalancerActor], "balancer")
 
     override def receive = {
         case Query(s) => {
@@ -39,20 +40,30 @@ class MainWorker extends Actor {
             /* forge result */
             val result = Types.makeIndex(s, a.makeRequest ,Scrape(a.getBody), a.localnode)           
             /* Index data to database */
-            Database.insertIndex(result)
-            self ! Query(s)
+            Database.insertIndex(result)            
+            /* Send nodes to balancer */
+            val nd = Scraper.findLink(Scraper.parse(a.getBody))
+            for(n <- nd) {
+                n match {
+                    case Link(desc, node) => balancer ! Node(node)
+                    case _ => log.error("Error while parsing node.")
+                }
+            }
         }
         case _ => log.error("Unknow type passed to actor.")
     }
 }
 
-class Balancer extends Actor {
+class BalancerActor extends Actor {
 
     val log = Logging(context.system, this)
+    val crawler = context.actorOf(Props[MainWorker], "crawler")
 
     override def receive = {
         case Node(node) => {
             log.info("Got a node: %s".format(node))
+            // TODO: Link checking
+            crawler ! Query(node)
         }
         case _ => log.error("Unknow type passed to actor.")
     }
