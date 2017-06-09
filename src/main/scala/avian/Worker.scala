@@ -26,16 +26,35 @@ import com.avian.scrape._
 import com.avian.types._
 import com.avian.database._
 import akka.actor._
+import akka.event.Logging
 
-class MainWorker(url: String) extends Actor {
+class MainWorker extends Actor {
+
+    val log = Logging(context.system, this)
+
     override def receive = {
-        case s: String => {
+        case Query(s) => {
+            log.info("Running on %s query.".format(s))
             val a = new Client(s)
-
             /* forge result */
-            val result = Types.makeIndex(s, a.makeRequest ,Scrape(a.getBody), a.localnode)
+            val result = Types.makeIndex(s, a.makeRequest ,Scrape(a.getBody), a.localnode)           
             /* Index data to database */
             Database.insertIndex(result)
-        }        
+            self ! Query(s)
+        }
+        case _ => log.error("Unknow type passed to actor.")
     }
+}
+
+class Balancer extends Actor {
+
+    val log = Logging(context.system, this)
+
+    override def receive = {
+        case Node(node) => {
+            log.info("Got a node: %s".format(node))
+        }
+        case _ => log.error("Unknow type passed to actor.")
+    }
+
 }

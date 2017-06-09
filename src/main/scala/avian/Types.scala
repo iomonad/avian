@@ -22,9 +22,14 @@ package com.avian.types
 
 import com.avian.utils.{Utils}
 
+/** @desc query type for actor request
+  */
+sealed case class Query(url: String)
+
 /** @desc modelized page type
   */
 sealed case class Link(title: String, href: String)
+sealed case class Node(node: String)
 sealed case class Page(
     title: String,
     desc: String,

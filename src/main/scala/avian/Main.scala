@@ -16,16 +16,17 @@ package com.avian
  *   limitations under the License.
  */
 
-/* @desc main entry 
+/** @desc main entry 
  * @author iomonad <iomonad@riseup.net>
  */
 
 import com.avian.worker.MainWorker
+import com.avian.types.{ Query }
 import akka.actor._
 
 package object Main extends App {
     val system:ActorSystem = ActorSystem("CrawlerSystem")
     val w1:ActorRef = system.actorOf(Props[MainWorker], "w1")
-    w1 ! "https://gentoo.org"
+    w1 ! Query("https://gentoo.org")
     system.stop _
 }

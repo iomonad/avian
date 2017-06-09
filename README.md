@@ -9,6 +9,6 @@
   </a><br>
   <u>Web crawler for personal data mining project.</u><br>
   <u> Please note that the crawler is currently purely experimental and
-      don't have concrete objectives.
+      don't have concrete objectives yet.
   </u>
 </p>
