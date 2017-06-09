@@ -26,13 +26,22 @@ import com.avian.scrape._
 import com.avian.types._
 import com.avian.utils.Utils
 import com.avian.database._
+import scala.concurrent.duration._
+import akka.util.Timeout
 import akka.actor._
 import akka.event.Logging
+import akka.actor.SupervisorStrategy._
 
 class MainWorker extends Actor {
 
     val log = Logging(context.system, this)
     val balancer = context.actorOf(Props[BalancerActor], "balancer")
+
+    override val supervisorStrategy = OneForOneStrategy(
+        maxNrOfRetries = 2,
+        withinTimeRange = 2 seconds) {
+        case _: java.net.SocketTimeoutException => Restart
+    }
 
     override def receive = {
         case Query(s) => {
@@ -48,7 +57,7 @@ class MainWorker extends Actor {
                 n match {
                     case Link(desc, node) => Utils.Url.regulize(node) match {
                         case Some(node) => balancer ! Node(node)
-                        case None => /* Avoid malformed urls */
+                        case None => /* Avoid malformed urls */ // TODO: Fix enpoint
                     }
                     case _ => log.error("Error while parsing node.")
                 }
@@ -66,7 +75,7 @@ class BalancerActor extends Actor {
     override def receive = {
         case Node(node) => {
             log.info("Got a node: %s".format(node))
-            // TODO: Link checking
+            // TODO: Link existence checking
             crawler ! Query(node)
         }
         case _ => log.error("Unknow type passed to actor.")

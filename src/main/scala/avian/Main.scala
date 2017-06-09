@@ -27,6 +27,6 @@ import akka.actor._
 package object Main extends App {
     val system:ActorSystem = ActorSystem("CrawlerSystem")
     val w1:ActorRef = system.actorOf(Props[MainWorker], "w1")
-    w1 ! Query("https://clojure.com")
+    w1 ! Query("https://reddit.com/")
     system.stop _
 }
