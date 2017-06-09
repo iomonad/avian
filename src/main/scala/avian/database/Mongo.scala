@@ -1,10 +1,25 @@
 package com.avian.database
 
-/* @Desc: Database helper class for
- *  storing crawling results in the mongodb
- *  database.
- * @ Author: iomonad <iomonad@riseup.net>
+/*
+ *   Copyright (c) 2017 iomonad <iomonad@riseup.net>.
+ *  
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *  
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *  
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
  */
+
+/** @desc database helper class for storing crawling 
+  *  results in the mongodb database.
+  * @author iomonad <iomonad@riseup.net>
+  */
 
 import com.mongodb.casbah.Imports._
 import com.avian.utils.{Utils}
@@ -17,10 +32,10 @@ object MongoFactory {
     val coll = db("avian")
 }
 
-
 object Database {
-    /* @Desc: Convert Index class to mongo object.
-     */
+    /** @desc convert Index class to mongo object.
+      * @param index page index
+      */
     def indexToMongo(index: Index): MongoDBObject = {
         val builder = MongoDBObject.newBuilder
         builder += "domain" -> index.url
@@ -29,8 +44,9 @@ object Database {
         builder += "localnode" -> index.localnode
         builder.result
     }
-    /* @Desc: Insert mongo object to the database
-     */
+    /** @desc insert mongo object to the database
+      * @param index page index
+      */
     def insertIndex(index: Index): Unit = {
         MongoFactory.coll.save(indexToMongo(index))
     }
