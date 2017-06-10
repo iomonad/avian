@@ -68,7 +68,7 @@ class OnionClient(url: String) extends ClientActions {
     var request: HttpResponse[String] = Http(url).proxy("127.0.0.1",9050).asString
 
     def reuse(url: String): Unit = {
-        Http(url).proxy("127.0.0.1",9050).asString /* Override object instance `request` */
+        Http(url).proxy("127.0.0.1", 9050).asString /* Override object instance `request` */
         localnode = url
     }
 }

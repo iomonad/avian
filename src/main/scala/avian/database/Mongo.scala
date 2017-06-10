@@ -50,4 +50,21 @@ object Database {
     def insertIndex(index: Index): Unit = {
         MongoFactory.coll.save(indexToMongo(index))
     }
+
+   /** @desc update mongo object to the database
+     * @param index page index
+     */
+    def updateIndex(index: Index): Unit = {
+        MongoFactory.coll.update(MongoDBObject("localnode" -> index.localnode) ,indexToMongo(index))
+    }
+
+    /** @desc predicate that chech if current node have already crawled
+      */
+    def iscrawled(node: String): Boolean = {
+        MongoFactory.coll.findOne("localnode" $ne node) match {
+            case Some(e) => true
+            case None => false
+            case _ => false
+        }
+    }
 }
