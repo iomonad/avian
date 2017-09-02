@@ -5,19 +5,16 @@ import org.scoverage.coveralls.Imports.CoverallsKeys._
 lazy val root = (project in file(".")).
     settings(
         inThisBuild(List(
-            organization := "com.avian",
+            organization := "io.trosa",
             scalaVersion := "2.12.2",
-            version      := "0.1.0"
+            version      := "0.0.1"
         )),
         name := "avian",
         libraryDependencies ++= Seq(
             scalaTest % Test,
             tsConfig,
             akkaActor,
-            akkaTest,                        
-            scalajHttp,
-            jsoup,
-            mongo
+            akkaTest
         )
     )
 
@@ -29,4 +26,4 @@ coverageEnabled := true
 coverageMinimum := 70
 coverageFailOnMinimum := false
 coverageHighlighting := true
-coverageExcludedPackages := "<empty>;com.avian.Main"
+coverageExcludedPackages := "<empty>;io.trosa.avian.Main"
