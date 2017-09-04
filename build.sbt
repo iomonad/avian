@@ -14,7 +14,11 @@ lazy val root = (project in file(".")).
             scalaTest % Test,
             tsConfig,
             akkaActor,
-            akkaTest
+            akkaStream,
+            akkaTest,
+            jsoup,
+            esC,
+            esCT
         )
     )
 
