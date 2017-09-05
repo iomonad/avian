@@ -15,6 +15,7 @@ lazy val root = (project in file(".")).
             tsConfig,
             akkaActor,
             akkaStream,
+            akkaHttp,
             akkaTest,
             jsoup,
             esC,
