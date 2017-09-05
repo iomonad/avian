@@ -1,5 +1,4 @@
 import Dependencies._
-import org.scoverage.coveralls.Imports.CoverallsKeys._
 
 /* Global configuration */
 lazy val root = (project in file(".")).
@@ -20,7 +19,8 @@ lazy val root = (project in file(".")).
             akkaTest,
             jsoup,
             esC,
-            esCT
+            esCT,
+            rmq
         )
     )
 

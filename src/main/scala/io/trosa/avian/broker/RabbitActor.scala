@@ -20,19 +20,25 @@
  * SOFTWARE.
  */
 
-package io.trosa.avian
+package io.trosa.avian.broker
 
-import akka.actor.{ActorSystem, Props}
-import io.trosa.avian.{Supervisor => s}
+import akka.actor.{Actor, ActorSystem}
+import akka.stream.ActorMaterializer
+import akka.stream.scaladsl.{Sink, Source}
+import io.scalac.amqp.Connection
 
-object Booter extends App {
+object RabbitActor extends Actor {
 
-  val system  = ActorSystem("avian")
+  val connection = Connection()
 
-  /*
-  * Supervisor instance to the system
-  * */
+  val queue = connection.consume(queue = "pivot-pool")
 
-  val supervisor = system.actorOf(Props[s], "supervisor")
+  val exchange = connection.publish(exchange = "accounting_department",
+    routingKey = "pivot-pool")
 
+  implicit val system = ActorSystem()
+  implicit val mat = ActorMaterializer()
+
+  override def receive: Receive = ???
 }
+
