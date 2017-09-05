@@ -22,18 +22,13 @@
 
 package io.trosa.avian
 
-import akka.actor.{ActorSystem, Props}
+import java.net.URL
 
-import io.trosa.avian.{Supervisor => s}
+object Types {
 
-object Booter extends App {
-
-  val system  = ActorSystem("avian")
-
-  /*
-  * Supervisor instance to the system
+  /* Type alias for target request
   * */
 
-  val supervisor = system.actorOf(Props[s], "supervisor")
+  type Pivot = URL
 
 }

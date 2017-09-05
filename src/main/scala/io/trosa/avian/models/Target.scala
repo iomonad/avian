@@ -20,20 +20,8 @@
  * SOFTWARE.
  */
 
-package io.trosa.avian
+package io.trosa.avian.models
 
-import akka.actor.{ActorSystem, Props}
+import io.trosa.avian.Types.Pivot
 
-import io.trosa.avian.{Supervisor => s}
-
-object Booter extends App {
-
-  val system  = ActorSystem("avian")
-
-  /*
-  * Supervisor instance to the system
-  * */
-
-  val supervisor = system.actorOf(Props[s], "supervisor")
-
-}
+case class Target(pivot: Pivot)

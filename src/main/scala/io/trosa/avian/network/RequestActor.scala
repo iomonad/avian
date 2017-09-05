@@ -20,20 +20,18 @@
  * SOFTWARE.
  */
 
-package io.trosa.avian
+package io.trosa.avian.network
 
-import akka.actor.{ActorSystem, Props}
+import akka.actor.Actor
 
-import io.trosa.avian.{Supervisor => s}
+import io.trosa.avian.Types.Pivot
+import io.trosa.avian.models.Target
 
-object Booter extends App {
+class RequestActor extends Actor {
 
-  val system  = ActorSystem("avian")
+  def process(pivot: Pivot) = ???
 
-  /*
-  * Supervisor instance to the system
-  * */
-
-  val supervisor = system.actorOf(Props[s], "supervisor")
-
+  override def receive = {
+    case Target(pivot) => process(pivot)
+  }
 }
