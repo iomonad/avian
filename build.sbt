@@ -16,6 +16,7 @@ lazy val root = (project in file(".")).
             akkaActor,
             akkaStream,
             akkaHttp,
+            akkaHttpC,
             akkaTest,
             jsoup,
             esC,
@@ -23,8 +24,12 @@ lazy val root = (project in file(".")).
         )
     )
 
+/* Boot entrypoint */
+mainClass in Compile := Some("io.trosa.avian.Booter")
+
 /* Scala lang related */
 scalacOptions += "-deprecation"
+scalacOptions += "-feature"
 
 /* Code coverage configuration */
 coverageEnabled := true

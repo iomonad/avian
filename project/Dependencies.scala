@@ -11,7 +11,7 @@ object Dependencies {
 
     /* Versions
      */
-    lazy val akkaVersion = "2.5.4"
+    lazy val akkaVersion = "2.4.19"
     lazy val testVersion = "3.0.1"
     lazy val configVersion = "1.3.1"
     lazy val elastic4sVersion = "5.4.0"
@@ -22,7 +22,8 @@ object Dependencies {
     lazy val scalaTest = "org.scalatest" %% "scalatest" % testVersion
     lazy val akkaActor = "com.typesafe.akka" %% "akka-actor" % akkaVersion
     lazy val akkaStream = "com.typesafe.akka" %% "akka-stream" % akkaVersion
-    lazy val akkaHttp  = "com.typesafe.akka" %% "akka-http-core" % akkaHttpVersion
+    lazy val akkaHttpC  = "com.typesafe.akka" %% "akka-http-core" % akkaHttpVersion
+    lazy val akkaHttp  = "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
     lazy val akkaTest  = "com.typesafe.akka" %% "akka-testkit" % akkaVersion
     lazy val tsConfig  = "com.typesafe" % "config" % configVersion
     lazy val jsoup     = "org.jsoup" % "jsoup" % "1.10.3"
