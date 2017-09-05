@@ -22,7 +22,7 @@
 
 package io.trosa.avian
 
-class Exceptions {
+object Exceptions {
 
   abstract class AvianException(reason: String, throwable: Throwable)
     extends Exception {
@@ -31,5 +31,11 @@ class Exceptions {
 
   final class AvianRobotDisallow(cause: Throwable)
     extends AvianException("Bot is not allowed to run in", cause)
+
+  final class AvianUnprocessableUrl(cause: Throwable)
+    extends AvianException("Url is invalid")
+
+  final class AvianTimeoutRequest(cause: Throwable)
+    extends AvianException("Request Timeout")
 
 }

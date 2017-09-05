@@ -23,9 +23,9 @@
 package io.trosa.avian.network
 
 import akka.actor.Actor
-
 import io.trosa.avian.Types.Pivot
 import io.trosa.avian.models.Target
+import io.trosa.avian.Exceptions.AvianUnprocessableUrl
 
 class RequestActor extends Actor {
 
@@ -33,5 +33,6 @@ class RequestActor extends Actor {
 
   override def receive = {
     case Target(pivot) => process(pivot)
+    case _ => new AvianUnprocessableUrl(new Throwable)
   }
 }
