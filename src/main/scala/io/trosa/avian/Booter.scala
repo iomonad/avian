@@ -34,5 +34,4 @@ object Booter extends App {
   * */
 
   val supervisor = system.actorOf(Props[s], "supervisor")
-
 }

@@ -33,7 +33,6 @@ class Supervisor extends Actor {
 
   override val supervisorStrategy =
     OneForOneStrategy(maxNrOfRetries = 10, withinTimeRange = 1 minute) {
-      case _: ArithmeticException      => Resume
       case _: AvianTimeoutRequest      => Restart
       case _: AvianUnprocessableUrl    => Stop
       case _: Exception                => Escalate
