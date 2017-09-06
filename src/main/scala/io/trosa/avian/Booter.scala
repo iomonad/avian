@@ -23,6 +23,7 @@
 package io.trosa.avian
 
 import akka.actor.{ActorSystem, Props}
+import akka.event.Logging
 import io.trosa.avian.{Supervisor => s}
 
 object Booter extends App {
@@ -34,4 +35,7 @@ object Booter extends App {
   * */
 
   val supervisor = system.actorOf(Props[s], "supervisor")
+  val log = Logging(system, classOf[Supervisor])
+
+  log.debug("foo")
 }

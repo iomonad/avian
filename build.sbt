@@ -17,10 +17,12 @@ lazy val root = (project in file(".")).
             akkaHttp,
             akkaHttpC,
             akkaTest,
+            akkaLog,
             jsoup,
             esC,
             esCT,
-            rmq
+            rmq,
+          logBack
         )
     )
 
