@@ -20,32 +20,17 @@
  * SOFTWARE.
  */
 
-package io.trosa.avian
+package io.trosa.avian.api
 
-import akka.actor.{ActorSystem, Props}
-import akka.event.Logging
-import akka.http.scaladsl.Http
-import akka.stream.ActorMaterializer
-import akka.util.Timeout
-import com.typesafe.config.{Config, ConfigFactory}
-import io.trosa.avian.{Supervisor => s}
-import io.trosa.avian.api.Router
+import akka.http.scaladsl.server.Route
 
-import scala.concurrent.Future
+/*
+* Trivial trait to force route
+* implementation.
+* */
 
-object Booter extends App {
+trait Subroute {
 
-  val config = ConfigFactory.load()
+  val route: Route
 
-  val system  = ActorSystem("avian")
-
-  /*
-  val api = Http().bindAndHandle(Router.routes, config.getString("api.interface"), config.getString("api.port"))
-   */
-
-  /*
-  * Supervisor instance to the system
-  * */
-  val supervisor = system.actorOf(Props[s], "supervisor")
-  val log = Logging(system, classOf[Supervisor])
 }

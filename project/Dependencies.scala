@@ -25,6 +25,7 @@ object Dependencies {
     lazy val akkaLog    = "com.typesafe.akka" % "akka-slf4j_2.12" % akkaVersion
     lazy val akkaHttpC  = "com.typesafe.akka" %% "akka-http-core" % akkaHttpVersion
     lazy val akkaHttp  = "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
+    lazy val akkaHttpJson = "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpVersion
     lazy val akkaTest  = "com.typesafe.akka" %% "akka-testkit" % akkaVersion
     lazy val tsConfig  = "com.typesafe" % "config" % configVersion
     lazy val jsoup     = "org.jsoup" % "jsoup" % "1.10.3"

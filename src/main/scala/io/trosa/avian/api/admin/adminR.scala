@@ -20,32 +20,26 @@
  * SOFTWARE.
  */
 
-package io.trosa.avian
+package io.trosa.avian.api.admin
 
-import akka.actor.{ActorSystem, Props}
-import akka.event.Logging
-import akka.http.scaladsl.Http
-import akka.stream.ActorMaterializer
-import akka.util.Timeout
-import com.typesafe.config.{Config, ConfigFactory}
-import io.trosa.avian.{Supervisor => s}
-import io.trosa.avian.api.Router
+import akka.http.scaladsl.server.Route
+import akka.actor.{ActorSystem, Terminated}
+import akka.http.scaladsl.model.HttpResponse
+import akka.http.scaladsl.server.Directives._
+import io.trosa.avian.api.Subroute
+import akka.http.scaladsl.model.StatusCodes._
 
-import scala.concurrent.Future
+object adminR extends Subroute {
 
-object Booter extends App {
+  implicit val system = ActorSystem()
 
-  val config = ConfigFactory.load()
+  val route: Route = pathPrefix("admin") {
+    path("_shutdown") {
+      get {
+        system.terminate // this is not consistent
+        complete(HttpResponse(OK))
+      }
+    }
+  }
 
-  val system  = ActorSystem("avian")
-
-  /*
-  val api = Http().bindAndHandle(Router.routes, config.getString("api.interface"), config.getString("api.port"))
-   */
-
-  /*
-  * Supervisor instance to the system
-  * */
-  val supervisor = system.actorOf(Props[s], "supervisor")
-  val log = Logging(system, classOf[Supervisor])
 }
