@@ -54,7 +54,7 @@ object Dependencies {
 	lazy val jsoup = "org.jsoup" % "jsoup" % "1.10.3"
 	lazy val esC = "com.sksamuel.elastic4s" %% "elastic4s-core" % elastic4sVersion
 	lazy val esCT = "com.sksamuel.elastic4s" %% "elastic4s-tcp" % elastic4sVersion
-	lazy val rmq = "io.scalac" %% "reactive-rabbit" % "1.1.4"
+	lazy val kafkaStream = "com.typesafe.akka" %% "akka-stream-kafka" % "0.17"
 	lazy val logBack = "ch.qos.logback" % "logback-classic" % "1.2.3"
 
 }

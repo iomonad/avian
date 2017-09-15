@@ -23,7 +23,6 @@
 package io.trosa.avian.api
 
 import akka.http.scaladsl.server.Route
-
 import io.trosa.avian.api.admin.adminR
 
 object Router {

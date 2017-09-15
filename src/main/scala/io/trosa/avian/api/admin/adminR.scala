@@ -22,12 +22,12 @@
 
 package io.trosa.avian.api.admin
 
-import akka.http.scaladsl.server.Route
-import akka.actor.{ActorSystem, Terminated}
+import akka.actor.ActorSystem
 import akka.http.scaladsl.model.HttpResponse
-import akka.http.scaladsl.server.Directives._
-import io.trosa.avian.api.Subroute
 import akka.http.scaladsl.model.StatusCodes._
+import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Route
+import io.trosa.avian.api.Subroute
 
 object adminR extends Subroute {
 

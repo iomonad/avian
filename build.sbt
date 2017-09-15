@@ -22,7 +22,7 @@ lazy val root = (project in file(".")).
 		  jsoup,
 		  esC,
 		  esCT,
-		  rmq,
+		  kafkaStream,
 		  logBack
 	  )
   )

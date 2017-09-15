@@ -24,14 +24,8 @@ package io.trosa.avian
 
 import akka.actor.{ActorSystem, Props}
 import akka.event.Logging
-import akka.http.scaladsl.Http
-import akka.stream.ActorMaterializer
-import akka.util.Timeout
-import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.config.ConfigFactory
 import io.trosa.avian.{Supervisor => s}
-import io.trosa.avian.api.Router
-
-import scala.concurrent.Future
 
 object Booter extends App {
 
@@ -40,12 +34,12 @@ object Booter extends App {
 	val system = ActorSystem("avian")
 
 	/*
+	* Todo: API server need implentation.
 	val api = Http().bindAndHandle(Router.routes, config.getString("api.interface"), config.getString("api.port"))
-	 */
+	*/
 
 	/*
 	* Supervisor instance to the system
 	* */
 	val supervisor = system.actorOf(Props[s], "supervisor")
-	val log = Logging(system, classOf[Supervisor])
 }
