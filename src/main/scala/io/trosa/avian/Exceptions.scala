@@ -24,18 +24,18 @@ package io.trosa.avian
 
 object Exceptions {
 
-	abstract class AvianException(reason: String, throwable: Throwable)
-	  extends Exception {
-		def this(reason: String) = this(reason, null)
-	}
+		abstract class AvianException(reason: String, throwable: Throwable)
+			extends Exception {
+				def this(reason: String) = this(reason, null)
+		}
 
-	final class AvianRobotDisallow(cause: Throwable)
-	  extends AvianException("Bot is not allowed to run in", cause)
+		final class AvianRobotDisallow(cause: Throwable)
+			extends AvianException("Bot is not allowed to run in", cause)
 
-	final class AvianUnprocessableUrl(cause: Throwable)
-	  extends AvianException("Url is invalid")
+		final class AvianUnprocessableUrl(cause: Throwable)
+			extends AvianException("Url is invalid")
 
-	final class AvianTimeoutRequest(cause: Throwable)
-	  extends AvianException("Request Timeout")
+		final class AvianTimeoutRequest(cause: Throwable)
+			extends AvianException("Request Timeout")
 
 }

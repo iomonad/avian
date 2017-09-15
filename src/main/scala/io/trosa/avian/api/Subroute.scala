@@ -31,6 +31,6 @@ import akka.http.scaladsl.server.Route
 
 trait Subroute {
 
-	val route: Route
+		val route: Route
 
 }

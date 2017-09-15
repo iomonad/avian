@@ -31,15 +31,15 @@ import io.trosa.avian.api.Subroute
 
 object adminR extends Subroute {
 
-	implicit val system = ActorSystem()
+		implicit val system = ActorSystem()
 
-	val route: Route = pathPrefix("admin") {
-		path("_shutdown") {
-			get {
-				system.terminate // this is not consistent
-				complete(HttpResponse(OK))
-			}
+		val route: Route = pathPrefix("admin") {
+				path("_shutdown") {
+						get {
+								system.terminate // this is not consistent
+								complete(HttpResponse(OK))
+						}
+				}
 		}
-	}
 
 }

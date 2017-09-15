@@ -23,23 +23,22 @@
 package io.trosa.avian
 
 import akka.actor.{ActorSystem, Props}
-import akka.event.Logging
 import com.typesafe.config.ConfigFactory
 import io.trosa.avian.{Supervisor => s}
 
 object Booter extends App {
 
-	val config = ConfigFactory.load()
+		val config = ConfigFactory.load()
 
-	val system = ActorSystem("avian")
+		val system = ActorSystem("avian")
 
-	/*
-	* Todo: API server need implentation.
-	val api = Http().bindAndHandle(Router.routes, config.getString("api.interface"), config.getString("api.port"))
-	*/
+		/*
+		* Todo: API server need implentation.
+		val api = Http().bindAndHandle(Router.routes, config.getString("api.interface"), config.getString("api.port"))
+		*/
 
-	/*
-	* Supervisor instance to the system
-	* */
-	val supervisor = system.actorOf(Props[s], "supervisor")
+		/*
+		* Supervisor instance to the system
+		* */
+		val supervisor = system.actorOf(Props[s], "supervisor")
 }

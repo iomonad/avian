@@ -27,20 +27,20 @@ import io.trosa.avian.Exceptions.{AvianTimeoutRequest, AvianUnprocessableUrl}
 
 class Supervisor extends Actor {
 
-	import akka.actor.OneForOneStrategy
-	import akka.actor.SupervisorStrategy._
+		import akka.actor.OneForOneStrategy
+		import akka.actor.SupervisorStrategy._
 
-	import scala.concurrent.duration._
-	import scala.language.postfixOps
+		import scala.concurrent.duration._
+		import scala.language.postfixOps
 
-	override val supervisorStrategy =
-		OneForOneStrategy(maxNrOfRetries = 10, withinTimeRange = 1 minute) {
-			case _: AvianTimeoutRequest => Restart
-			case _: AvianUnprocessableUrl => Stop
-			case _: Exception => Escalate
+		override val supervisorStrategy =
+				OneForOneStrategy(maxNrOfRetries = 10, withinTimeRange = 1 minute) {
+						case _: AvianTimeoutRequest => Restart
+						case _: AvianUnprocessableUrl => Stop
+						case _: Exception => Escalate
+				}
+
+		def receive = {
+				case p: Props => sender() ! context.actorOf(p)
 		}
-
-	def receive = {
-		case p: Props => sender() ! context.actorOf(p)
-	}
 }

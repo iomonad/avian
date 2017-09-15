@@ -29,10 +29,10 @@ import io.trosa.avian.models.Target
 
 class RequestActor extends Actor {
 
-	def process(pivot: Pivot) = ???
+		override def receive = {
+				case Target(pivot) => process(pivot)
+				case _ => new AvianUnprocessableUrl(new Throwable)
+		}
 
-	override def receive = {
-		case Target(pivot) => process(pivot)
-		case _ => new AvianUnprocessableUrl(new Throwable)
-	}
+		def process(pivot: Pivot) = ???
 }
