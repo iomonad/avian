@@ -2,30 +2,30 @@ import Dependencies._
 
 /* Global configuration */
 lazy val root = (project in file(".")).
-    settings(
-        inThisBuild(List(
-            organization := "io.trosa",
-            scalaVersion := "2.12.2",
-            version      := "0.0.1"
-        )),
-        name := "avian",
-        libraryDependencies ++= Seq(
-            scalaTest % Test,
-            tsConfig,
-            akkaActor,
-            akkaStream,
-            akkaHttp,
-            akkaHttpJson,
-            akkaHttpC,
-            akkaTest,
-            akkaLog,
-            jsoup,
-            esC,
-            esCT,
-            rmq,
-            logBack
-        )
-    )
+  settings(
+	  inThisBuild(List(
+		  organization := "io.trosa",
+		  scalaVersion := "2.12.2",
+		  version := "0.0.1"
+	  )),
+	  name := "avian",
+	  libraryDependencies ++= Seq(
+		  scalaTest % Test,
+		  tsConfig,
+		  akkaActor,
+		  akkaStream,
+		  akkaHttp,
+		  akkaHttpJson,
+		  akkaHttpC,
+		  akkaTest,
+		  akkaLog,
+		  jsoup,
+		  esC,
+		  esCT,
+		  rmq,
+		  logBack
+	  )
+  )
 
 /* Boot endpoint */
 mainClass in Compile := Some("io.trosa.avian.Booter")

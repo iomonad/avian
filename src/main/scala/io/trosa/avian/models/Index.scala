@@ -20,17 +20,23 @@
  * SOFTWARE.
  */
 
-package io.trosa.avian.api
+package io.trosa.avian.models
 
-import akka.http.scaladsl.server.Route
+import io.trosa.avian.Types.{AbsNode, CurNode, rawBody}
 
-/*
-* Trivial trait to force route
-* implementation.
-* */
+case class Index(/** ******************/
+                 curNode: CurNode, /* Page cursor */
+                 absNode: AbsNode, /* Absolute domain */
+                 /** ******************/
+                 headers: Map[String, String], /* Response headers */
+                 method: String = "GET", /* Default request method */
+                 status: Int,
+                 content_type: Option[String],
+                 body: rawBody,
 
-trait Subroute {
-
-	val route: Route
-
-}
+                 /** ******************/
+                 pivots: Option[List[String]], /* Maybe pivot parents ~ 20 limits, classified by pertinence*/
+                 ports: Option[List[Int]], /* Scanned port result */
+                 index_date: Long = System.currentTimeMillis(),
+                 updated_date: Long = System.currentTimeMillis()
+                )

@@ -26,9 +26,23 @@ import java.net.URL
 
 object Types {
 
-  /* Type alias for target request
-  * */
+	/* Type alias for target request
+	* */
 
-  type Pivot = URL
+	type Pivot = URL
 
+	/* Cursor node
+	* */
+
+	type CurNode = String
+
+	/* Absolute node (root of CurNode)
+	* */
+
+	type AbsNode = String
+
+	/* Unserialized request body
+	* */
+
+	type rawBody = String
 }

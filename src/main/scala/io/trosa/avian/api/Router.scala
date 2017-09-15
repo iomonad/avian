@@ -28,8 +28,8 @@ import io.trosa.avian.api.admin.adminR
 
 object Router {
 
-  val routes: Route = {
-      adminR.route // ~
-  }
+	val routes: Route = {
+		adminR.route // ~
+	}
 
 }

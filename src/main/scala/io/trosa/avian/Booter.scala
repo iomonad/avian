@@ -35,17 +35,17 @@ import scala.concurrent.Future
 
 object Booter extends App {
 
-  val config = ConfigFactory.load()
+	val config = ConfigFactory.load()
 
-  val system  = ActorSystem("avian")
+	val system = ActorSystem("avian")
 
-  /*
-  val api = Http().bindAndHandle(Router.routes, config.getString("api.interface"), config.getString("api.port"))
-   */
+	/*
+	val api = Http().bindAndHandle(Router.routes, config.getString("api.interface"), config.getString("api.port"))
+	 */
 
-  /*
-  * Supervisor instance to the system
-  * */
-  val supervisor = system.actorOf(Props[s], "supervisor")
-  val log = Logging(system, classOf[Supervisor])
+	/*
+	* Supervisor instance to the system
+	* */
+	val supervisor = system.actorOf(Props[s], "supervisor")
+	val log = Logging(system, classOf[Supervisor])
 }

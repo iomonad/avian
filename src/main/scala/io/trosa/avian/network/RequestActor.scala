@@ -29,10 +29,10 @@ import io.trosa.avian.Exceptions.AvianUnprocessableUrl
 
 class RequestActor extends Actor {
 
-  def process(pivot: Pivot) = ???
+	def process(pivot: Pivot) = ???
 
-  override def receive = {
-    case Target(pivot) => process(pivot)
-    case _ => new AvianUnprocessableUrl(new Throwable)
-  }
+	override def receive = {
+		case Target(pivot) => process(pivot)
+		case _ => new AvianUnprocessableUrl(new Throwable)
+	}
 }

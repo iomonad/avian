@@ -29,16 +29,16 @@ import io.scalac.amqp.Connection
 
 object RabbitActor extends Actor {
 
-  val connection = Connection()
+	val connection = Connection()
 
-  val queue = connection.consume(queue = "pivot-pool")
+	val queue = connection.consume(queue = "pivot-pool")
 
-  val exchange = connection.publish(exchange = "accounting_department",
-    routingKey = "pivot-pool")
+	val exchange = connection.publish(exchange = "accounting_department",
+		routingKey = "pivot-pool")
 
-  implicit val system = ActorSystem()
-  implicit val mat = ActorMaterializer()
+	implicit val system = ActorSystem()
+	implicit val mat = ActorMaterializer()
 
-  override def receive: Receive = ???
+	override def receive: Receive = ???
 }
 
