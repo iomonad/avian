@@ -22,7 +22,7 @@
 
 package io.trosa.avian.network
 
-import akka.actor.{Actor, ActorLogging, Props}
+import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.HttpRequest
 import akka.stream.{ActorMaterializer, ActorMaterializerSettings}
@@ -38,22 +38,21 @@ class RequestActor extends Actor
 	import akka.pattern.pipe
 	import context.dispatcher
 
-	val scraper = context.actorOf(Props[ScraperActor])
+	val scraper: ActorRef = context.actorOf(Props[ScraperActor])
 
 	final implicit val materializer: ActorMaterializer =
 		ActorMaterializer(ActorMaterializerSettings(context.system))
 
 	val http = Http(context.system)
 
-	override def receive = {
+	override def receive: PartialFunction[Any, Unit] = {
 		case Target(pivot) => process(pivot)
 		case _ => new AvianUnprocessableUrl(new Throwable)
 	}
 
 	override def process(pivot: Pivot): Unit = {
-		log.info("Processing pivot: %s".format(pivot.toString))
-		http.singleRequest(HttpRequest(uri = pivot.toString))
+		log.info("Processing pivot: %s".format(pivot))
+		http.singleRequest(HttpRequest(uri = pivot))
 		    .pipeTo(scraper)
 	}
-
 }

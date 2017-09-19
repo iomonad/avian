@@ -27,14 +27,12 @@ import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.stream.{ActorMaterializer, ActorMaterializerSettings}
 import akka.util.ByteString
 
-import scala.util.control.NoStackTrace
-
 class ScraperActor extends Actor
 	with ActorLogging {
 
 	import scala.concurrent.ExecutionContext.Implicits.global
 
-	implicit val materializer =
+	implicit val materializer: ActorMaterializer =
 		ActorMaterializer(ActorMaterializerSettings(context.system))
 
 	/*
@@ -42,10 +40,10 @@ class ScraperActor extends Actor
 	* by the Request Trait class implementation
 	* */
 
-	override def receive = {
+	def receive: PartialFunction[Any, Unit] = {
 		case HttpResponse(StatusCodes.OK, headers, entity, _) =>
 			entity.dataBytes.runFold(ByteString(""))(_ ++ _).foreach { body =>
-				log.info("Got response, body: " + body.utf8String)
+				log.info("Got response, body: %s".format(body.utf8String))
 			}
 		case resp @ HttpResponse(code, _, _, _) =>
 			log.info("Request failed, response code: " + code)

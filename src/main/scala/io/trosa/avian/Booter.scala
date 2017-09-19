@@ -29,14 +29,9 @@
 
 package io.trosa.avian
 
-import java.net
-import java.net.URL
-
 import akka.actor.{ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
 import io.trosa.avian.broker.BalancerActor
-
-import scala.concurrent.ExecutionContext.Implicits.global
 import io.trosa.avian.models.Target
 import io.trosa.avian.{Supervisor => s}
 

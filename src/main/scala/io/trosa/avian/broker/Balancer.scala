@@ -22,9 +22,9 @@
 
 package io.trosa.avian.broker
 
-import java.net.{MalformedURLException, URL}
+import java.net.URL
 
-import akka.actor.{Actor, ActorLogging, Props}
+import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 import io.trosa.avian.Exceptions.AvianUnprocessableUrl
 import io.trosa.avian.Types.Pivot
 import io.trosa.avian.models.Target
@@ -43,13 +43,13 @@ class BalancerActor extends Actor
 	*  Regular pivot actor processor
 	* */
 
-	val request = context.actorOf(Props[RequestActor])
+	val request: ActorRef = context.actorOf(Props[RequestActor])
 
 	/*
 	*  Proxy-routed pivot actor processor
 	* */
 
-	val requestProxy = context.actorOf(Props[RequestProxyActor])
+	val requestProxy: ActorRef = context.actorOf(Props[RequestProxyActor])
 
 	/*
 	* Balancer will in a first time determine if the url needs proxy.
@@ -58,8 +58,8 @@ class BalancerActor extends Actor
 	* */
 
 	def process(pivot: Pivot): Unit = {
-		isValid(pivot) match {
-			case true => isOnion(pivot) match {
+		if (isValid(pivot)) {
+			isOnion(pivot) match {
 				case true => {
 					log.info("Balancing tor url: %s".format(pivot))
 					requestProxy ! Target(pivot)
@@ -69,25 +69,32 @@ class BalancerActor extends Actor
 					request ! Target(pivot)
 				}
 			}
-			case false => throw new AvianUnprocessableUrl(new Throwable)
+		} else {
+			throw new AvianUnprocessableUrl(new Throwable)
 		}
 	}
+
+	/*
+	* Warning: cheap code
+	* */
 
 	private def isOnion(pivot: Pivot): Boolean = {
-		isValid(pivot) match {
-			case true => {
-				val x = new URL(pivot)
-				x.getHost().split("\\.")(0) match {
-					case "onion" => true
-					case _ => false
-				}
+		if (isValid(pivot)) {
+			val x = new URL(pivot)
+			x.getHost.split("\\.")(1) match {
+				case "onion" => true
+				case _ => false
 			}
-			case _ => false
+		} else {
+			false
 		}
 	}
 
+	/*
+	* Warning: cheap code
+	* */
 
-	private def isValid(pivot: Pivot): Boolean = {
+	def isValid(pivot: Pivot): Boolean = {
 		try {
 			val foo = new URL(pivot)
 			true

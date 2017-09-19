@@ -32,12 +32,10 @@ package io.trosa.avian.network
 import java.net.InetSocketAddress
 
 import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
-import akka.http.scaladsl.ClientTransport
-import akka.http.scaladsl.settings.ConnectionPoolSettings
-import akka.http.scaladsl.Http
+import akka.http.scaladsl.{ClientTransport, Http}
 import akka.http.scaladsl.model.HttpRequest
+import akka.http.scaladsl.settings.ConnectionPoolSettings
 import akka.stream.{ActorMaterializer, ActorMaterializerSettings}
-import com.typesafe.config.{Config, ConfigFactory}
 import io.trosa.avian.Exceptions.AvianUnprocessableUrl
 import io.trosa.avian.Types.Pivot
 import io.trosa.avian.models.Target
@@ -50,7 +48,7 @@ class RequestProxyActor extends Actor
 	import akka.pattern.pipe
 	import context.dispatcher
 
-	implicit val system = ActorSystem()
+	implicit val system: ActorSystem = ActorSystem()
 
 	val scraper = context.actorOf(Props[ScraperActor])
 
@@ -59,7 +57,7 @@ class RequestProxyActor extends Actor
 
 	val http = Http(context.system)
 
-	override def receive = {
+	override def receive: PartialFunction[Any, Unit] = {
 		case Target(pivot) => process(pivot)
 		case _ => new AvianUnprocessableUrl(new Throwable)
 	}
