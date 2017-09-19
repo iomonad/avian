@@ -1,3 +1,10 @@
+/**
+ * File: RequestProxyActor.scala
+ * Author: Clement Trosa <me@trosa.io>
+ * Date: 19/09/2017 11:49:55 AM
+ * Last Modified Date: 19/09/2017 11:49:55 AM
+ * Last Modified By: Clement Trosa <me@trosa.io>
+ */
 /*
  * Copyright (c) 2017 Clement Trosa <me@trosa.io>
  *
@@ -60,8 +67,7 @@ class RequestProxyActor extends Actor
 	override def process(pivot: Pivot): Unit = {
 
 		val proxy = ClientTransport.httpsProxy(InetSocketAddress
-		    .createUnresolved(ConfigFactory.defaultApplication().getString("proxy.host"),
-			    ConfigFactory.defaultApplication().getInt("proxy.port")))
+                    .createUnresolved("127.0.0.1", 9050))
 
 		log.info("Processing proxy pivot: %s".format(pivot.toString))
 		http.singleRequest(HttpRequest(uri = pivot.toString),

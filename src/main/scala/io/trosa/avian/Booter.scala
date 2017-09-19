@@ -1,3 +1,10 @@
+/**
+ * File: Booter.scala
+ * Author: Clement Trosa <me@trosa.io>
+ * Date: 19/09/2017 11:46:56 AM
+ * Last Modified Date: 19/09/2017 11:46:56 AM
+ * Last Modified By: Clement Trosa <me@trosa.io>
+ */
 /*
  * Copyright (c) 2017 Clement Trosa <me@trosa.io>
  *
@@ -22,8 +29,14 @@
 
 package io.trosa.avian
 
+import java.net
+import java.net.URL
+
 import akka.actor.{ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
+import io.trosa.avian.Types.Pivot
+import io.trosa.avian.models.Target
+import io.trosa.avian.network.RequestProxyActor
 import io.trosa.avian.{Supervisor => s}
 
 object Booter extends App {
@@ -41,4 +54,15 @@ object Booter extends App {
 	* Supervisor instance to the system
 	* */
 	val supervisor = system.actorOf(Props[s], "supervisor")
+
+        val request = system.actorOf(Props[RequestProxyActor])
+
+	val seed: URL = new URL("http://google.fr")
+
+	import scala.concurrent.duration._
+	import scala.language.postfixOps
+	import scala.concurrent.ExecutionContext.Implicits.global
+	system.scheduler.scheduleOnce(500 millis) {
+		request ! Target(seed)
+	}
 }
