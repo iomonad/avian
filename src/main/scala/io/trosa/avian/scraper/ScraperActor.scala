@@ -27,6 +27,8 @@ import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.stream.{ActorMaterializer, ActorMaterializerSettings}
 import akka.util.ByteString
 
+import scala.util.control.NoStackTrace
+
 class ScraperActor extends Actor
 	with ActorLogging {
 

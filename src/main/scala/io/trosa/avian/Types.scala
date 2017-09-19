@@ -22,14 +22,12 @@
 
 package io.trosa.avian
 
-import java.net.URL
-
 object Types {
 
 	/* Type alias for target request
 	* */
 
-	type Pivot = URL
+	type Pivot = String
 
 	/* Cursor node
 	* */
