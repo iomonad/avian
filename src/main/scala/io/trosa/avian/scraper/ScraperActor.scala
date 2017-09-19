@@ -20,22 +20,33 @@
  * SOFTWARE.
  */
 
-package io.trosa.avian.models
+package io.trosa.avian.scraper
 
-import io.trosa.avian.Types.{AbsNode, CurNode, rawBody}
+import akka.actor.{Actor, ActorLogging}
+import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
+import akka.stream.{ActorMaterializer, ActorMaterializerSettings}
+import akka.util.ByteString
 
-case class Index(/** ******************/
-	curNode: CurNode, /* Page cursor */
-	absNode: AbsNode, /* Absolute domain */
-	/** ******************/
-	headers: Map[String, String], /* Response headers */
-	method: String = "GET", /* Default request method */
-	status: Int,
-	content_type: Option[String],
-	body: rawBody,
+class ScraperActor extends Actor
+	with ActorLogging {
 
-	/** ******************/
-	pivots: Option[List[String]], /* Maybe pivot parents ~ 20 limits, classified by pertinence*/
-	index_date: Long = System.currentTimeMillis(),
-	updated_date: Long = System.currentTimeMillis()
-)
+	import scala.concurrent.ExecutionContext.Implicits.global
+
+	implicit val materializer =
+		ActorMaterializer(ActorMaterializerSettings(context.system))
+
+	/*
+	* Receive Future Http[T] request from pipe
+	* by the Request Trait class implementation
+	* */
+
+	override def receive = {
+		case HttpResponse(StatusCodes.OK, headers, entity, _) =>
+			entity.dataBytes.runFold(ByteString(""))(_ ++ _).foreach { body =>
+				log.info("Got response, body: " + body.utf8String)
+			}
+		case resp @ HttpResponse(code, _, _, _) =>
+			log.info("Request failed, response code: " + code)
+			resp.discardEntityBytes()
+	}
+}

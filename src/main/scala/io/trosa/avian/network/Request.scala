@@ -20,22 +20,20 @@
  * SOFTWARE.
  */
 
-package io.trosa.avian.models
+package io.trosa.avian.network
 
-import io.trosa.avian.Types.{AbsNode, CurNode, rawBody}
+import io.trosa.avian.Types.Pivot
 
-case class Index(/** ******************/
-	curNode: CurNode, /* Page cursor */
-	absNode: AbsNode, /* Absolute domain */
-	/** ******************/
-	headers: Map[String, String], /* Response headers */
-	method: String = "GET", /* Default request method */
-	status: Int,
-	content_type: Option[String],
-	body: rawBody,
+trait Request {
 
-	/** ******************/
-	pivots: Option[List[String]], /* Maybe pivot parents ~ 20 limits, classified by pertinence*/
-	index_date: Long = System.currentTimeMillis(),
-	updated_date: Long = System.currentTimeMillis()
-)
+	/* Request implementation
+	*  Process one request, an parse
+	*  connection to scraper actor that
+	*  will build Index sequence and process
+	*  pivot balancing to message broker consumer.
+	*  @param pivot request targets
+	* */
+
+	def process(pivot: Pivot): Unit
+
+}

@@ -22,21 +22,28 @@
 
 package io.trosa.avian.network
 
-import akka.actor.{Actor, ActorLogging, Props}
+import java.net.InetSocketAddress
+
+import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
+import akka.http.scaladsl.ClientTransport
+import akka.http.scaladsl.settings.ConnectionPoolSettings
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.HttpRequest
 import akka.stream.{ActorMaterializer, ActorMaterializerSettings}
+import com.typesafe.config.{Config, ConfigFactory}
 import io.trosa.avian.Exceptions.AvianUnprocessableUrl
 import io.trosa.avian.Types.Pivot
 import io.trosa.avian.models.Target
 import io.trosa.avian.scraper.ScraperActor
 
-class RequestActor extends Actor
+class RequestProxyActor extends Actor
     with Request
-    with ActorLogging {
+	with ActorLogging {
 
 	import akka.pattern.pipe
 	import context.dispatcher
+
+	implicit val system = ActorSystem()
 
 	val scraper = context.actorOf(Props[ScraperActor])
 
@@ -51,9 +58,14 @@ class RequestActor extends Actor
 	}
 
 	override def process(pivot: Pivot): Unit = {
-		log.info("Processing pivot: %s".format(pivot.toString))
-		http.singleRequest(HttpRequest(uri = pivot.toString))
-		    .pipeTo(scraper)
-	}
 
+		val proxy = ClientTransport.httpsProxy(InetSocketAddress
+		    .createUnresolved(ConfigFactory.defaultApplication().getString("proxy.host"),
+			    ConfigFactory.defaultApplication().getInt("proxy.port")))
+
+		log.info("Processing proxy pivot: %s".format(pivot.toString))
+		http.singleRequest(HttpRequest(uri = pivot.toString),
+			settings = ConnectionPoolSettings(system).withTransport(proxy))
+		 	.pipeTo(scraper)
+	}
 }
