@@ -37,8 +37,8 @@ object Dependencies {
 	lazy val akkaVersion = "2.4.19"
 	lazy val testVersion = "3.0.1"
 	lazy val configVersion = "1.3.1"
-	lazy val elastic4sVersion = "5.4.0"
 	lazy val akkaHttpVersion = "10.0.10"
+	lazy val phantomV = "2.14.5"
 
 	/* Libraries
 	 */
@@ -52,9 +52,8 @@ object Dependencies {
 	lazy val akkaTest = "com.typesafe.akka" %% "akka-testkit" % akkaVersion
 	lazy val tsConfig = "com.typesafe" % "config" % configVersion
 	lazy val jsoup = "org.jsoup" % "jsoup" % "1.10.3"
-	lazy val esC = "com.sksamuel.elastic4s" %% "elastic4s-core" % elastic4sVersion
-	lazy val esCT = "com.sksamuel.elastic4s" %% "elastic4s-tcp" % elastic4sVersion
 	lazy val kafkaStream = "com.typesafe.akka" %% "akka-stream-kafka" % "0.17"
 	lazy val logBack = "ch.qos.logback" % "logback-classic" % "1.2.3"
+	lazy val cassandra = "com.outworkers" %% "phantom-dsl" % phantomV
 
 }

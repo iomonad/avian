@@ -20,10 +20,9 @@ lazy val root = (project in file(".")).
 		  akkaTest,
 		  akkaLog,
 		  jsoup,
-		  esC,
-		  esCT,
 		  kafkaStream,
-		  logBack
+		  logBack,
+		  cassandra
 	  )
   )
 
