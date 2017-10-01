@@ -22,7 +22,7 @@
 
 package io.trosa.avian.models
 
-import io.trosa.avian.Types.{AbsNode, CurNode, rawBody}
+import io.trosa.avian.Types.{AbsNode, CurNode, Pivot, rawBody}
 
 case class Index(/** ******************/
 	curNode: CurNode, /* Page cursor */
@@ -39,3 +39,5 @@ case class Index(/** ******************/
 	index_date: Long = System.currentTimeMillis(),
 	updated_date: Long = System.currentTimeMillis()
 )
+
+case class RawIndex(index: Index, pivot: Pivot)

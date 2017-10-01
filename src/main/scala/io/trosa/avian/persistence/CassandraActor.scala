@@ -23,16 +23,29 @@
 package io.trosa.avian.persistence
 
 import akka.actor.Actor
+import io.trosa.avian.Exceptions.AvianUnprocessableUrl
+import io.trosa.avian.Types.Pivot
+import io.trosa.avian.models.{Index, RawIndex}
+import com.outworkers.phantom.dsl._
+import com.typesafe.config.ConfigFactory
 
 class CassandraActor extends Actor {
 
-	override def preStart(): Unit = {
+	private val config = ConfigFactory.load()
 
-	}
+	private val hosts = config.getStringList("cassandra.host").asInstanceOf[Array[String]]
+	private val keyspace = config.getString("cassandra.keyspace")
+
+	lazy val connector: CassandraConnection = ContactPoints(hosts).keySpace(keyspace)
+
+	override def preStart(): Unit = super.preStart
 
 	override def receive: Receive = {
-		case ??? => ???
+		case RawIndex(index, pivot) => process(index, pivot)
+		case _ => throw new AvianUnprocessableUrl(new Exception)
 	}
+
+	def process(index: Index, pivot: Pivot): Unit = ???
 
 	override def postRestart(reason: Throwable): Unit = super.postRestart(reason)
 }
