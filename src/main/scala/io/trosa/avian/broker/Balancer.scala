@@ -30,7 +30,7 @@ import io.trosa.avian.Types.Pivot
 import io.trosa.avian.models.Target
 import io.trosa.avian.network.{RequestActor, RequestProxyActor}
 
-
+@FunctionalInterface
 class BalancerActor extends Actor
     with ActorLogging {
 

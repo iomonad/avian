@@ -22,7 +22,13 @@
 
 package io.trosa.avian.models
 
+import com.outworkers.phantom.CassandraTable
+import com.outworkers.phantom.column.TimeUUIDColumn
+import com.outworkers.phantom.connectors.{Connector, RootConnector}
+import com.outworkers.phantom.dsl._
 import io.trosa.avian.Types.{AbsNode, CurNode, Pivot, rawBody}
+
+import scala.concurrent.Future
 
 case class Index(/** ******************/
 	curNode: CurNode, /* Page cursor */
@@ -41,3 +47,30 @@ case class Index(/** ******************/
 )
 
 case class RawIndex(index: Index, pivot: Pivot)
+
+/* Cassandra index model
+*  Class extension DatabaseConnector: Custom
+*  database access
+* */
+
+abstract class CassandraIndex extends CassandraTable[CassandraIndex, Index]
+	with RootConnector {
+
+	object id extends TimeUUIDColumn(this) with PartitionKey {
+		override lazy val name = "index_id"
+	}
+
+	/* Datatype */
+
+	val curNode = ???
+
+	def save(index: Index): Future[ResultSet] = {
+		store(index)
+		 	.consistencyLevel_=(ConsistencyLevel.ALL)
+			.future()
+	}
+
+	def getById(id: UUID): Future[Option[Index]] = {
+		select.where(_.id eqs id).one()
+	}
+}

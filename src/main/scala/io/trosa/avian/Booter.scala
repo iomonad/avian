@@ -54,4 +54,6 @@ object Booter extends App {
 	val balancer = system.actorOf(Props[BalancerActor])
 
 	balancer ! Target(config.getString("seed.target"))
+
+	system.terminate
 }

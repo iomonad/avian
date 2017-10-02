@@ -22,30 +22,56 @@
 
 package io.trosa.avian.persistence
 
-import akka.actor.Actor
+import akka.actor.{Actor, ActorLogging}
 import io.trosa.avian.Exceptions.AvianUnprocessableUrl
 import io.trosa.avian.Types.Pivot
-import io.trosa.avian.models.{Index, RawIndex}
+import io.trosa.avian.models.{CassandraIndex, Index, RawIndex}
 import com.outworkers.phantom.dsl._
 import com.typesafe.config.ConfigFactory
 
-class CassandraActor extends Actor {
-
+object DefaultDatabaseConnector {
 	private val config = ConfigFactory.load()
 
 	private val hosts = config.getStringList("cassandra.host").asInstanceOf[Array[String]]
 	private val keyspace = config.getString("cassandra.keyspace")
 
-	lazy val connector: CassandraConnection = ContactPoints(hosts).keySpace(keyspace)
+	val connector: CassandraConnection = ContactPoints(hosts).keySpace(keyspace)
+}
 
-	override def preStart(): Unit = super.preStart
+/*
+* Generic connector
+* */
 
-	override def receive: Receive = {
-		case RawIndex(index, pivot) => process(index, pivot)
-		case _ => throw new AvianUnprocessableUrl(new Exception)
-	}
+abstract class DatabaseConnector(override val connector: CassandraConnection)
+    extends Database[DatabaseConnector](connector) {
 
-	def process(index: Index, pivot: Pivot): Unit = ???
+	/*
+	*  More database configuration go here.
+	* */
 
-	override def postRestart(reason: Throwable): Unit = super.postRestart(reason)
+	object index extends CassandraIndex with Connector
+}
+
+/*
+* Database action singleton
+* */
+
+object DatabaseAction
+    extends DatabaseConnector(DefaultDatabaseConnector.connector)
+
+class CassandraActor extends Actor
+    with ActorLogging {
+
+		override def preStart(): Unit = super.preStart
+
+		override def receive: Receive = {
+			case RawIndex(index, pivot) => process(index, pivot)
+			case _ => throw new AvianUnprocessableUrl(new Exception)
+		}
+
+		def process(index: Index, pivot: Pivot): Unit = {
+			log.info("Storing to cassandra for pivot: %s".format(pivot))
+		}
+
+		override def postRestart(reason: Throwable): Unit = super.postRestart(reason)
 }
